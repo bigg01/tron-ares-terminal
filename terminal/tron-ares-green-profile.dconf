@@ -1,0 +1,25 @@
+[/]
+audible-bell=false
+background-color='#020302'
+bold-color='#E0FFE8'
+bold-color-same-as-fg=false
+bold-is-bright=true
+cursor-background-color='#39FF6A'
+cursor-blink-mode='on'
+cursor-colors-set=true
+cursor-foreground-color='#020302'
+cursor-shape='block'
+default-size-columns=110
+default-size-rows=30
+font='DejaVu Sans Mono for Powerline 10'
+foreground-color='#39FF6A'
+highlight-background-color='#12A83E'
+highlight-colors-set=true
+highlight-foreground-color='#E0FFE8'
+palette=['#020302', '#16C24A', '#3A3A3A', '#0E8A32', '#2A2A2A', '#12A83E', '#0A5A22', '#C0C9C0', '#4A4A4A', '#39FF6A', '#666666', '#6CFF94', '#666666', '#7CFFA0', '#999999', '#E0FFE8']
+use-system-font=false
+use-theme-colors=false
+visible-name='Tron: Ares — Green'
+use-custom-command=true
+custom-command='env TRON_ARES_THEME=green bash'
+exit-action='close'

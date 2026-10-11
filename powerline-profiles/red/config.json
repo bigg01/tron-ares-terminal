@@ -1,0 +1,11 @@
+{
+  "common": {
+    "term_truecolor": true
+  },
+  "ext": {
+    "shell": {
+      "colorscheme": "tron",
+      "theme": "tron"
+    }
+  }
+}

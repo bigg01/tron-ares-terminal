@@ -1,0 +1,121 @@
+{
+  "name": "Tron: Ares Green",
+  "groups": {
+    "environment": {
+      "fg": "tron_white",
+      "bg": "tron_deep",
+      "attrs": []
+    },
+    "virtualenv": {
+      "fg": "tron_white",
+      "bg": "tron_deep",
+      "attrs": []
+    },
+    "branch": {
+      "fg": "tron_white",
+      "bg": "tron_deep",
+      "attrs": []
+    },
+    "branch_clean": {
+      "fg": "tron_white",
+      "bg": "tron_deep",
+      "attrs": []
+    },
+    "branch_dirty": {
+      "fg": "tron_white",
+      "bg": "tron_deep",
+      "attrs": []
+    },
+    "cwd": {
+      "fg": "tron_white",
+      "bg": "tron_deep",
+      "attrs": []
+    },
+    "continuation": {
+      "fg": "tron_white",
+      "bg": "tron_deep",
+      "attrs": []
+    },
+    "attached_clients": {
+      "fg": "tron_white",
+      "bg": "tron_deep",
+      "attrs": []
+    },
+    "user": {
+      "fg": "tron_void",
+      "bg": "tron_neon",
+      "attrs": [
+        "bold"
+      ]
+    },
+    "hostname": {
+      "fg": "tron_void",
+      "bg": "tron_neon",
+      "attrs": [
+        "bold"
+      ]
+    },
+    "mode": {
+      "fg": "tron_void",
+      "bg": "tron_neon",
+      "attrs": [
+        "bold"
+      ]
+    },
+    "superuser": {
+      "fg": "tron_void",
+      "bg": "tron_neon",
+      "attrs": [
+        "bold"
+      ]
+    },
+    "cwd:current_folder": {
+      "fg": "tron_white",
+      "bg": "tron_mid",
+      "attrs": [
+        "bold"
+      ]
+    },
+    "continuation:current": {
+      "fg": "tron_white",
+      "bg": "tron_mid",
+      "attrs": [
+        "bold"
+      ]
+    },
+    "cwd:divider": {
+      "fg": "tron_neon",
+      "bg": "tron_deep",
+      "attrs": []
+    },
+    "branch:divider": {
+      "fg": "tron_neon",
+      "bg": "tron_deep",
+      "attrs": []
+    },
+    "jobnum": {
+      "fg": "tron_void",
+      "bg": "tron_mid",
+      "attrs": [
+        "bold"
+      ]
+    },
+    "exit_fail": {
+      "fg": "white",
+      "bg": "darkred",
+      "attrs": [
+        "bold"
+      ]
+    },
+    "exit_success": {
+      "fg": "tron_void",
+      "bg": "tron_neon",
+      "attrs": []
+    },
+    "background": {
+      "fg": "tron_white",
+      "bg": "tron_void",
+      "attrs": []
+    }
+  }
+}

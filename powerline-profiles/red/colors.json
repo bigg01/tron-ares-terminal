@@ -1,0 +1,24 @@
+{
+  "colors": {
+    "tron_void": [
+      0,
+      "030202"
+    ],
+    "tron_deep": [
+      24,
+      "5A0A16"
+    ],
+    "tron_mid": [
+      33,
+      "C21624"
+    ],
+    "tron_neon": [
+      45,
+      "FF394A"
+    ],
+    "tron_white": [
+      255,
+      "FFE0E4"
+    ]
+  }
+}

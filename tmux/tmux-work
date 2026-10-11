@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Reattach to work, or create four panes grouped into work1 and work2.
+set -e
+
+session="${TMUX_WORK_SESSION:-work}"
+project="${1:-${TMUX_WORK_DIR:-$HOME}}"
+
+if [[ ! -d "$project" ]]; then
+    printf 'Directory does not exist: %s\n' "$project" >&2
+    exit 1
+fi
+
+if ! tmux has-session -t "=$session" 2>/dev/null; then
+    # Group work1: blue and green panes.
+    blue=$(tmux new-session -d -s "$session" -n work1 -c "$project" \
+        -P -F '#{pane_id}' 'env TRON_ARES_THEME=blue bash')
+    tmux set-window-option -t "$session:work1" automatic-rename off
+    green=$(tmux split-window -h -t "$blue" -c "$project" \
+        -P -F '#{pane_id}' 'env TRON_ARES_THEME=green bash')
+    tmux select-pane -t "$blue" -P 'fg=#39A6FF,bg=#020203'
+    tmux select-pane -t "$green" -P 'fg=#39FF6A,bg=#020302'
+
+    # Group work2: red and yellow panes.
+    red=$(tmux new-window -t "$session:" -n work2 -c "$project" \
+        -P -F '#{pane_id}' 'env TRON_ARES_THEME=red bash')
+    tmux set-window-option -t "$session:work2" automatic-rename off
+    yellow=$(tmux split-window -h -t "$red" -c "$project" \
+        -P -F '#{pane_id}' 'env TRON_ARES_THEME=yellow bash')
+    tmux select-pane -t "$red" -P 'fg=#FF394A,bg=#030202'
+    tmux select-pane -t "$yellow" -P 'fg=#FFDE39,bg=#030302'
+    tmux set-window-option -t "$session:work1" pane-active-border-style 'fg=#39A6FF'
+    tmux set-window-option -t "$session:work2" pane-active-border-style 'fg=#FF394A'
+    tmux set-option -t "$session" status-style 'fg=#E0F0FF,bg=#10151C'
+    tmux set-option -t "$session" status-left '#[fg=#39A6FF,bold] [#S] '
+    tmux set-option -t "$session" status-right '#[fg=#E0F0FF] Tron: Ares | Powerline '
+    tmux set-option -t "$session" window-status-current-style 'fg=#39FF6A,bg=#10151C,bold'
+    tmux set-option -t "$session" window-status-style 'fg=#E0F0FF,bg=#10151C'
+    tmux select-pane -t "$blue"
+    tmux select-window -t "$session:work1"
+fi
+
+if [[ -n "${TMUX:-}" ]]; then
+    tmux switch-client -t "=$session"
+else
+    tmux attach-session -t "=$session"
+fi
