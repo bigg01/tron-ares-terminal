@@ -5,6 +5,10 @@ case ":$PATH:" in
     *) export PATH="$HOME/.local/bin:$PATH" ;;
 esac
 
+_tron_ares_title() {
+    printf '\033]0;Tron: Ares — %s | %s@%s\007' "${TRON_ARES_THEME^}" "$USER" "${HOSTNAME%%.*}"
+}
+
 _tron_ares_prompt() {
     case "${TRON_ARES_THEME:-}" in
         green)
@@ -30,19 +34,21 @@ _tron_ares_prompt() {
     esac
     case "${TRON_ARES_THEME:-}" in
         green|red|blue|yellow)
-            if command -v powerline-render >/dev/null 2>&1 && [ -r /usr/share/powerline/bindings/bash/powerline.sh ]; then
+            if [[ "${TRON_ARES_PROMPT:-powerline}" == grid ]]; then
+                # Remove only Powerline's PS1 updater, keeping other prompt hooks.
+                PROMPT_COMMAND="${PROMPT_COMMAND//_powerline_status_wrapper _powerline_set_prompt/}"
+                PS2='> '
+                PS3='#? '
+            elif command -v powerline-render >/dev/null 2>&1 && [ -r /usr/share/powerline/bindings/bash/powerline.sh ]; then
                 # Independent configuration keeps simultaneous profiles separate.
                 export POWERLINE_CONFIG_PATHS="/usr/share/powerline/config_files:${XDG_CONFIG_HOME:-$HOME/.config}/tron-ares/powerline/$TRON_ARES_THEME"
                 POWERLINE_COMMAND="$(command -v powerline-render)"
                 POWERLINE_BASH_CONTINUATION=1
                 POWERLINE_BASH_SELECT=1
                 source /usr/share/powerline/bindings/bash/powerline.sh
-                _tron_ares_title() {
-                    printf '\033]0;Tron: Ares — %s | %s@%s\007' "${TRON_ARES_THEME^}" "$USER" "${HOSTNAME%%.*}"
-                }
-                if [[ "$PROMPT_COMMAND" != *"_tron_ares_title"* ]]; then
-                    _powerline_add_status_wrapped_command append _tron_ares_title
-                fi
+            fi
+            if [[ "${PROMPT_COMMAND:-}" != *"_tron_ares_title"* ]]; then
+                PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}_tron_ares_title"
             fi
             ;;
     esac
@@ -93,13 +99,31 @@ tron_color() {
             printf '\033]4;%s;%s\007' "$index" "${palette[index]}"
         done
     fi
-    if declare -F _powerline_set_prompt >/dev/null; then
+    if [[ "${TRON_ARES_PROMPT:-powerline}" == powerline ]] && declare -F _powerline_set_prompt >/dev/null; then
         _powerline_set_prompt 0 '0'
     fi
     if declare -F _tron_ares_title >/dev/null; then
         _tron_ares_title
     fi
 }
+
+# Prompt mode is independent of the selected terminal color.
+tron_prompt() {
+    case "${1:-}" in
+        grid|powerline) ;;
+        *) printf 'Usage: tron_prompt {grid|powerline}\n' >&2; return 2 ;;
+    esac
+    export TRON_ARES_PROMPT="$1"
+    export TRON_ARES_THEME="${TRON_ARES_THEME:-green}"
+    _tron_ares_prompt
+    if [[ "$TRON_ARES_PROMPT" == powerline ]] && declare -F _powerline_set_prompt >/dev/null; then
+        _powerline_set_prompt 0 '0'
+    fi
+    _tron_ares_title
+}
+
+alias tron-grid='tron_prompt grid'
+alias tron-powerline='tron_prompt powerline'
 
 alias tron-red='tron_color red'
 alias tron-green='tron_color green'

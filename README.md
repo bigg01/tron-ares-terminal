@@ -74,7 +74,44 @@ In tmux, the current pane's prompt and foreground/background change; other panes
 keep their colors. The terminal's shared palette and cursor stay unchanged.
 The outer title bar and border follow GNOME's shared GTK theme.
 
-## Grouped workspace
+## Choose a prompt style
+
+Powerline is the default. Switch to the minimal, movie-inspired GRID style or back
+without changing your terminal color:
+
+```bash
+tron-grid       # [GRID] user@host ~/project ❯
+tron-powerline  # colored Powerline segments
+```
+
+Both styles support all four colors. For example, `tron-red` followed by
+`tron-grid` gives a red GRID prompt; `tron-blue` changes it to blue while keeping
+GRID mode. The aliases apply to the current Bash shell or tmux pane. GRID mode
+preserves other prompt hooks, such as tmux working-directory updates.
+
+To make GRID your default, add this line to `~/.bashrc` **before** the
+`# --- Tron: Ares selectable Bash profiles ---` block:
+
+```bash
+export TRON_ARES_PROMPT=grid
+```
+
+Use `powerline` instead, or remove that line, to restore the default. To try GRID
+in a new shell without changing your default:
+
+```bash
+TRON_ARES_THEME=red TRON_ARES_PROMPT=grid bash
+```
+
+## Using tmux
+
+A **session** is a workspace that keeps shells running while you detach. A
+**window** groups panes, like a tab; a **pane** is one shell in a split window.
+This setup creates the `work` session with four panes in two windows.
+
+### Start and choose a group
+
+Run these commands in your terminal:
 
 ```bash
 tmux-work                       # start in your home directory
@@ -87,22 +124,88 @@ tmux-work "$HOME/projects/app"  # use an existing project directory
 | `work2` | Red | Yellow |
 
 Running the launcher again reattaches to `work`; from inside tmux, it switches
-sessions. It leaves existing session layouts intact. Set `TMUX_WORK_DIR` for a
-default directory or `TMUX_WORK_SESSION` for another session name.
+sessions. Existing layouts, commands, and working directories stay intact.
+Directory arguments apply when creating a session. For another named workspace:
 
-Press **Ctrl+B**, release, then:
+```bash
+TMUX_WORK_SESSION=personal tmux-work "$HOME"
+```
 
-| Key | Action |
+Set `TMUX_WORK_DIR` for a default directory. Each pane starts as a shell; run
+your editor, server, or monitoring command in the pane you want to use.
+
+### Navigate and manage panes
+
+For each shortcut, hold **Ctrl** and press **B**, release both, then press the
+listed key. Example: **Ctrl+B**, then **w** opens the window chooser. These are
+tmux's default bindings; an existing `~/.tmux.conf` can override them.
+
+| Key after Ctrl+B | Action |
 |---|---|
 | `w` | Choose a window/group |
-| Arrow | Choose a pane |
+| `n` / `p` | Next / previous window |
+| Arrow | Move to a neighboring pane |
+| `o` | Move to the next pane |
 | `%` | Split side by side |
 | `"` | Split top and bottom |
-| `z` | Expand/restore a pane |
-| `d` | Detach without closing shells |
+| `z` | Expand the current pane / restore the layout |
+| Ctrl+Arrow | Resize the pane; repeat for a larger change |
+| `c` | Create another window |
+| `,` | Rename the current window |
+| `!` | Move the current pane into its own window |
+| `[` | Enter scroll/copy mode; use arrows or Page Up, then `q` to leave |
+| `d` | Detach while leaving shells running |
+| `?` | Show the shortcut list |
 
-Use `sync-on` to broadcast typing within the current window, and `sync-off` to
-stop. Target panes should be at shell prompts when broadcasting shell commands.
+Type `exit` at a shell prompt to close that pane. Closing the last pane closes
+its window; closing the last window ends the session.
+
+To add a pane with a specific color and the current pane's directory:
+
+```bash
+tmux split-window -h -c "#{pane_current_path}" 'env TRON_ARES_THEME=red bash'
+```
+
+Run `tron-red`, `tron-green`, `tron-blue`, or `tron-yellow` inside a pane to change
+its prompt and default foreground/background. Use `tron-grid` or
+`tron-powerline` to choose its prompt style.
+
+### Synchronize a group
+
+At a shell prompt inside tmux, run:
+
+```bash
+sync-on   # send your typing to all panes in this window
+sync-off  # return to independent typing
+```
+
+Synchronization affects the selected window, so `work1` and `work2` can be
+controlled independently. Target panes should be at shell prompts when sending
+shell commands; turn synchronization off before working in one pane alone.
+Check the current setting with `tmux show-window-options synchronize-panes`.
+
+### Detach and return
+
+Press **Ctrl+B**, then **d**. Your shells and programs continue running. Return
+with `tmux-work`, or list and attach to sessions manually:
+
+```bash
+tmux list-sessions
+tmux attach-session -t work
+```
+
+From inside tmux, use `tmux switch-client -t work` instead of attaching another
+client. Detaching preserves the live session; it does not save it across a reboot.
+
+### Optional mouse controls
+
+Run `tmux set-option mouse on` inside the session to click panes and window names,
+resize by dragging borders, and scroll with the mouse. Use
+`tmux set-option mouse off` to disable it. For a default across future sessions,
+add `set -g mouse on` to `~/.tmux.conf`.
+
+See the [official tmux getting-started guide](https://github.com/tmux/tmux/wiki/Getting-Started)
+for more controls and customization.
 
 ## Files and customization
 
