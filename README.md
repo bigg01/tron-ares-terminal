@@ -15,12 +15,31 @@ Mono and generic user/host labels. The shared profiles use the packaged Powerlin
 
 ## Install
 
-Install prerequisites on Ubuntu, then run the installer from this folder:
+Start in a terminal in your Ubuntu GNOME desktop session.
 
-```bash
-sudo apt install python3 gnome-terminal tmux powerline fonts-powerline fontconfig dconf-cli
-./install.sh
-```
+1. Install Git and the required packages:
+
+   ```bash
+   sudo apt update
+   sudo apt install git python3 gnome-terminal tmux powerline fonts-powerline fontconfig dconf-cli
+   ```
+
+2. Clone this repository and enter its folder:
+
+   ```bash
+   git clone https://github.com/bigg01/tron-ares-terminal.git
+   cd tron-ares-terminal
+   ```
+
+3. Run the installer as your regular user:
+
+   ```bash
+   ./install.sh
+   ```
+
+Only the package installation needs `sudo`; do not run `install.sh` with `sudo`.
+If you downloaded the repository as a ZIP instead, extract it, enter the extracted
+folder, and run `bash install.sh` after installing the prerequisites.
 
 Run this as your regular user in a graphical desktop session. The installer adds
 **Tron: Ares — Green**, **Red**, **Blue**, and **Yellow** profiles, configures Bash,
@@ -36,6 +55,9 @@ Open a new terminal with the desired profile, or load the Bash aliases:
 ```bash
 source ~/.bashrc
 ```
+
+Try `tron-blue` to switch colors, then run `tmux-work` to launch the grouped
+workspace. The installer adds `~/.local/bin` to Bash's PATH when the snippet is loaded.
 
 ## Change colors
 

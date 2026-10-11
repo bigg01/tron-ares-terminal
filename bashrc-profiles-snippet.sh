@@ -1,4 +1,10 @@
 # --- Tron: Ares selectable Bash profiles ---
+# Make the installed workspace launcher available in new and reloaded shells.
+case ":$PATH:" in
+    *":$HOME/.local/bin:"*) ;;
+    *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+
 _tron_ares_prompt() {
     case "${TRON_ARES_THEME:-}" in
         green)
