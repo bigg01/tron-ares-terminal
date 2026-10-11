@@ -9,9 +9,11 @@ theme is unchanged.
 
 ![Blue and green Powerline panes in work1](screenshots/work1.png)
 ![Red and yellow Powerline panes in work2](screenshots/work2.png)
+![Red GRID prompt with tron-red, tron-grid, and ls](screenshots/red-grid-ls.png)
 
 Screenshots show a sample workspace captured on my computer with Hack Nerd Font
 Mono and generic user/host labels. The shared profiles use the packaged Powerline font.
+The red GRID listing uses optional `eza` for file icons; this setup does not install it.
 
 ## Install
 
